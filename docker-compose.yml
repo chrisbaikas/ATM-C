@@ -1,0 +1,46 @@
+services:
+  terminal:
+    build:
+      context: ${TERMINAL_PATH}
+    container_name: ${PROJECT_NAME}-terminal
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./${TERMINAL_PATH}:/app
+    working_dir: /app
+    command: ./atm
+    networks:
+      - atm-net
+
+  ncurses:
+    build:
+      context: ${NCURSES_PATH}
+    container_name: ${PROJECT_NAME}-ncurses
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./${NCURSES_PATH}:/app
+    working_dir: /app
+    command: ./atm
+    networks:
+      - atm-net
+
+  gtk:
+    build:
+      context: ${GTK_PATH}
+    container_name: ${PROJECT_NAME}-gtk
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./${GTK_PATH}:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY}
+    working_dir: /app
+    command: ./gtk_atm
+    networks:
+      - atm-net
+
+networks:
+  atm-net:
+    driver: bridge

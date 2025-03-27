@@ -1,0 +1,18 @@
+# Dockerfile.base
+FROM debian:bullseye
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    make \
+    sqlite3 \
+    libsqlite3-dev \
+    libncurses5-dev \
+    libgtk-3-dev \
+    libssl-dev \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    x11-utils \
+    xauth \
+    && apt-get clean
