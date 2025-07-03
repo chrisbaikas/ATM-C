@@ -3,14 +3,14 @@
 void mainMenu(User u)
 {
     int option;
-    
+
     if (sharedTransferNotification && *sharedTransferNotification) {
         printf("\n*** Someone transferred their account to you !! ***\n");
         *sharedTransferNotification = 0;
         printf("Press ENTER to continue...");
         clearInputBuffer();
     }
-    
+
     system("clear");
     printf("\n\n\t\t======= ATM =======\n");
     printf("\n\t\tWelcome, %s \n", u.name);
@@ -50,7 +50,8 @@ void mainMenu(User u)
             transferOwner(u);
             break;
         case 8:
-            exit(0);
+            printf("Exiting... Bye!\n");
+            safeExit(0);  // Graceful exit
             break;
         default:
             mainMenu(u);
@@ -67,7 +68,7 @@ void initMenu(User *u)
     printf("\n\t\t[1]- Login\n");
     printf("\n\t\t[2]- Register\n");
     printf("\n\t\t[3]- Exit\n");
-    
+
     while (!r)
     {
         scanf("%d", &option);
@@ -91,7 +92,7 @@ void initMenu(User *u)
                 r = 1;
                 break;
             case 3:
-                exit(0);
+                safeExit(0);  // Exit with cleanup
                 break;
             default:
                 printf("Insert a valid operation!\n");
@@ -118,7 +119,7 @@ int main()
     pthread_t notif_tid;
     if (pthread_create(&notif_tid, NULL, notificationThread, &u) != 0) {
         perror("pthread_create");
-        exit(1);
+        safeExit(1);  // Clean exit on thread error
     }
     pthread_detach(notif_tid); 
 
@@ -126,6 +127,7 @@ int main()
         mainMenu(u); 
     }
 
+    // Unreachable code – fallback cleanup if needed
     cleanupSharedNotification();
     return 0;
 }
