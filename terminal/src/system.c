@@ -1,7 +1,5 @@
 #include "header.h"
 
-#include "header.h"
-
 void createNewAcc(User u)
 {
   Record r;
