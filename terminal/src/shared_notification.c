@@ -15,7 +15,7 @@ void initSharedNotification(void) {
     int fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666);
     if (fd == -1) {
         perror("shm_open");
-        exit(1);
+        safeExit(1);  // graceful shutdown
     }
 
     // Size: 4 bytes for int + 50 bytes for sender username
@@ -23,13 +23,15 @@ void initSharedNotification(void) {
 
     if (ftruncate(fd, size) == -1) {
         perror("ftruncate");
-        exit(1);
+        close(fd);
+        safeExit(1);  // graceful shutdown
     }
 
     void *addr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (addr == MAP_FAILED) {
         perror("mmap");
-        exit(1);
+        close(fd);
+        safeExit(1);  // graceful shutdown
     }
     close(fd);
 
