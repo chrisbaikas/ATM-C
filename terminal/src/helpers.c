@@ -228,3 +228,14 @@ double roundToTwoDecimals(double value) {
     return ((int)(value * 100 + 0.5)) / 100.0;
 }
 
+void safeExit(int code) {
+    // Clean shared memory if initialized
+    cleanupSharedNotification();
+
+    // You can also log the exit if you want
+    if (code != 0) {
+        fprintf(stderr, "Exiting with code %d\n", code);
+    }
+
+    exit(code);
+}
