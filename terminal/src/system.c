@@ -256,11 +256,22 @@ void checkAccountDetail(User u)
     else if (strcasecmp(r.accountType, "fixed03") == 0)
         rate = 8;
     else if (strcasecmp(r.accountType, "current") == 0)
-        printf("You will not get interests because the account is of type current.\n");
-    
-    if (rate > 0) {
-        interest = (r.amount * rate / 100.0) / 12;
+        printf("You will not get interests because the account is of type current.\n"); 
+        
+    if (strcasecmp(r.accountType, "savings") == 0) {
+        interest = (r.amount * rate / 100.0)  / 12;
         printf("You will get $%.2lf as interest on day %d of every month.\n", interest, r.deposit.day);
+    } else if (rate > 0) {
+        int yearsToAdd = 0;
+        if (strcasecmp(r.accountType, "fixed01") == 0)
+            yearsToAdd = 1;
+        else if (strcasecmp(r.accountType, "fixed02") == 0)
+            yearsToAdd = 2;
+        else if (strcasecmp(r.accountType, "fixed03") == 0)
+            yearsToAdd = 3;
+    
+        interest = (r.amount * rate / 100.0) * yearsToAdd;
+        printf("You will get $%.2lf as interest on %02d/%02d/%04d.\n", interest, r.deposit.day, r.deposit.month, r.deposit.year + yearsToAdd);
     }
     
     printf("\nPress Enter to return to the main menu...");
