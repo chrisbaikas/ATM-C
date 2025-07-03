@@ -74,6 +74,7 @@ double readAmount(int allowNegative);
 void readAccountType(char *accountType, int maxLen);
 void success();
 void successWithPos(User u, int row, int col); // Optional if using positional
+void safeExit(int code);
 
 // ========== Database ========== //
 int initDatabase(const char *dbFile);
