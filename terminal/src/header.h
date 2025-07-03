@@ -41,10 +41,6 @@ typedef struct {
     char password[50];
 } User;
 
-// ========== Global Variables ========== //
-extern char senderUsername[50];
-extern int *sharedTransferNotification;
-
 // ========== Main Flow ========== //
 void initMenu(User *u);
 void mainMenu(User u);
@@ -91,7 +87,7 @@ int removeRecordForUser(const User *u, int accountNbr);
 // ========== Notifications ========== //
 
 extern int *sharedTransferNotification;
-extern char sharedSenderUsername[50];
+extern char *sharedSenderUsername;
 
 void initSharedNotification(void);
 void cleanupSharedNotification(void);
