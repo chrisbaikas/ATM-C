@@ -71,7 +71,10 @@ void registerMenu(User *u)
         clearInputBuffer();
 
         db = openDatabase("users.db");
-        if (db == NULL) exit(1);
+        if (db == NULL) {
+            fprintf(stderr, "Could not open DB.\n");
+            safeExit(1);
+        }
 
         const char *sqlSelect = "SELECT id FROM users WHERE username = ?;";
         rc = sqlite3_prepare_v2(db, sqlSelect, -1, &stmt, NULL);
@@ -101,7 +104,10 @@ void registerMenu(User *u)
     hashPassword(plainPassword, (unsigned char *)hashedPass);
     
     db = openDatabase("users.db");
-    if (db == NULL) exit(1);
+    if (db == NULL) {
+        fprintf(stderr, "Could not open DB.\n");
+        safeExit(1);
+    }
     
     const char *sqlInsert = "INSERT INTO users(username, passwordHash) VALUES(?, ?);";
     rc = sqlite3_prepare_v2(db, sqlInsert, -1, &stmt, NULL);
@@ -135,7 +141,11 @@ const char *getPassword(User u)
 {
     static char savedPass[100];
     sqlite3 *db = openDatabase("users.db");
-    if (db == NULL) exit(1);
+    if (db == NULL) {
+        fprintf(stderr, "Could not open DB.\n");
+        safeExit(1);
+    }
+
     sqlite3_stmt *stmt;
     int rc;
     
