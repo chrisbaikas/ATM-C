@@ -1,5 +1,7 @@
 #include "header.h"
 
+#include "header.h"
+
 void createNewAcc(User u)
 {
   Record r;
@@ -9,7 +11,7 @@ void createNewAcc(User u)
     // Create the records table if it does not exist
     db = openDatabase("records.db");
     if (db == NULL) {
-        exit(1);
+        safeExit(1);
     }
     const char *sqlCreate = "CREATE TABLE IF NOT EXISTS records ("
                             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -26,10 +28,10 @@ void createNewAcc(User u)
     if (rc != SQLITE_OK) {
         fprintf(stderr, "SQL error creating records table: %s\n", sqlite3_errmsg(db));
         sqlite3_close(db);
-        exit(1);
+        safeExit(1);
     }
     sqlite3_close(db);
-    
+
     system("clear");
     printf("\t\t\t===== New record =====\n");
 
@@ -42,8 +44,7 @@ void createNewAcc(User u)
     printf("\nToday's date automatically set to: %02d/%02d/%04d\n",
            r.deposit.day, r.deposit.month, r.deposit.year);
     */
-    
-    // Automatically retrieves the current system date from the system clock
+
     int valid = 0;
     while (!valid) {
         printf("\nEnter today's date (dd/mm/yyyy): ");
@@ -60,7 +61,7 @@ void createNewAcc(User u)
         }
         valid = 1;
     }
-    
+
     // Input of the account number with an existence check
     valid = 0;
     do {
@@ -71,9 +72,9 @@ void createNewAcc(User u)
             continue;
         }
         clearInputBuffer();
-        
-    // If getRecordForUser returns 0, it means that the record already exists
-    if (getRecordForUser(u, r.accountNbr, &r) == 0) {
+
+        // If getRecordForUser returns 0, it means that the record already exists
+        if (getRecordForUser(u, r.accountNbr, &r) == 0) {
             printf("✖ This Account already exists for this user.\n");
             printf("Please try again.\n");
             valid = 0;
@@ -81,8 +82,7 @@ void createNewAcc(User u)
             valid = 1;
         }
     } while (!valid);
-    
-   
+
     while (1) {
         printf("\nEnter the country: ");
         scanf("%s", r.country);
@@ -96,7 +96,7 @@ void createNewAcc(User u)
 
     while (1) {
         printf("\nEnter the phone number: ");
-        scanf("%s", r.phone);  
+        scanf("%s", r.phone);
         clearInputBuffer();
         if (isValidPhone(r.phone)) {
             break;
@@ -106,11 +106,10 @@ void createNewAcc(User u)
     }
 
     r.amount = readAmount(0);
-    
-    
+
     // Reads the account type using the helper function readAccountType
     readAccountType(r.accountType, sizeof(r.accountType));
-    
+
     // Insert the new record into the database using the insertRecordForUser function
     rc = insertRecordForUser(&u, &r);
     if (rc != SQLITE_DONE) {
@@ -118,7 +117,7 @@ void createNewAcc(User u)
     } else {
         printf("\nRecord inserted successfully in database.\n");
     }
-    
+
     success(u);
 }
 
@@ -487,7 +486,6 @@ void removeAccount(User u) {
 
     success(u);
 }
-
 
 
 void transferOwner(User u)
