@@ -67,13 +67,11 @@ int readIntInput(void) {
 }
 
 // Displays a success message and returning to the main menu.
-void success() {
-    printf("\n✔ Success!\n\n");
+void success(User u) {
+    printf("\n✔ Success for user %s!\n", u.name);
     printf("Press Enter to return to the main menu...");
-    clearInputBuffer();  
+    clearInputBuffer();
 }
-
-
 
 // Returns 1 if the given year is a leap year, otherwise returns 0.
 int isLeapYear(int year) {
