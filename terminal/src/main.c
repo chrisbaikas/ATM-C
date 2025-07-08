@@ -4,13 +4,6 @@ void mainMenu(User u)
 {
     int option;
 
-    if (sharedTransferNotification && *sharedTransferNotification) {
-        printf("\n*** Someone transferred their account to you !! ***\n");
-        *sharedTransferNotification = 0;
-        printf("Press ENTER to continue...");
-        clearInputBuffer();
-    }
-
     system("clear");
     printf("\n\n\t\t======= ATM =======\n");
     printf("\n\t\tWelcome, %s \n", u.name);
