@@ -44,7 +44,7 @@ void loginMenu(User *u) {
             sqlite3_close(db);
         }
     } else {
-        printf("\n\tLogin failed! Incorrect password.\n");
+        printf("\n\tLogin failed!\n");
     }
     
     printf("\tPress ENTER to continue...");
